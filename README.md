@@ -4,7 +4,8 @@ Displays the temperature on the serial monitor every 5 seconds, with each displa
 
 ## Components
  - 1x Temperature sensor NTC 10k
- - 1x LED with the color of your choice.
+ - 1x 1k ohm resistor
+ - 1x LED with the color of your choice
 
 
 Tinkercard: https://www.tinkercad.com/things/9iJZ9fOCxjU-arduino-temperature-monitor
