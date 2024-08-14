@@ -1,25 +1,50 @@
 #include <Thermistor.h>
+#include <Wire.h>
+#include <Adafruit_GFX.h>
+#include <Adafruit_SSD1306.h>
+
+#define SCREEN_WIDTH 128
+#define SCREEN_HEIGH 64
+
+#define OLED_RESET -1
 
 Thermistor temp(2);
 
-int LED = 2;
+Adafruit_SSD1306 display(
+  SCREEN_WIDTH,
+  SCREEN_HEIGH,
+  &Wire,
+  OLED_RESET
+);
 
 void setup() {
-  Serial.begin(9600);
-  delay(1000);
-  pinMode(LED, OUTPUT);
+  if(!display.begin(SSD1306_SWITCHCAPVCC, 0x3C)) {
+    Serial.println(F("Fail to init display SSD1306!"));
+    for(;;);
+  }
+
+  display.clearDisplay();
 }
 
 void loop() {
   int temperature = temp.getTemp();
+  
+  display.clearDisplay();
+  display.setTextSize(1);
+  display.setTextColor(SSD1306_WHITE);
+  display.setCursor(15, 1);
 
-  Serial.print("Temperature: ");
-  Serial.print(temperature);
-  Serial.println("ºC");
+  display.println("Temperatura atual");
 
-  digitalWrite(LED, HIGH);
-  delay(400);
+  display.setTextSize(2);
+  display.setCursor(40, 35);
+  display.print(temperature);
+  display.setCursor(65, 30);
+  display.write(248);
+  display.setCursor(77, 35);
+  display.println("C");
 
-  digitalWrite(LED, LOW);
-  delay(5000);
+  display.display();
+
+  delay(500);
 }
